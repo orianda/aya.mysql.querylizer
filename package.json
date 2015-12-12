@@ -1,0 +1,35 @@
+{
+  "name": "aya.mysql",
+  "version": "0.0.0",
+  "description": "AYA MySQL querylizer",
+  "main": "src/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4"
+  },
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orianda/aya.mysql.querylizer.git"
+  },
+  "keywords": [
+    "aya",
+    "mysql",
+    "query",
+    "creator"
+  ],
+  "author": "orianda <orianda@paan.de>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/orianda/aya.mysql/issues"
+  },
+  "homepage": "https://github.com/orianda/aya.mysql#readme"
+}
