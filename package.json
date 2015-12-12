@@ -1,5 +1,5 @@
 {
-  "name": "aya.mysql",
+  "name": "aya.mysql.querylizer",
   "version": "0.0.0",
   "description": "AYA MySQL querylizer",
   "main": "src/index.js",
@@ -29,7 +29,7 @@
   "author": "orianda <orianda@paan.de>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/orianda/aya.mysql/issues"
+    "url": "https://github.com/orianda/aya.mysql.querylizer/issues"
   },
-  "homepage": "https://github.com/orianda/aya.mysql#readme"
+  "homepage": "https://github.com/orianda/aya.mysql.querylizer#readme"
 }
