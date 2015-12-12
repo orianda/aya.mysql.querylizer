@@ -23,8 +23,7 @@
   "keywords": [
     "aya",
     "mysql",
-    "query",
-    "creator"
+    "querylizer"
   ],
   "author": "orianda <orianda@paan.de>",
   "license": "ISC",
