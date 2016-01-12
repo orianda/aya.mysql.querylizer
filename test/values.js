@@ -8,15 +8,15 @@ describe('VALUES names', function () {
         {
             names: undefined,
             assert: {
-                query:'',
-                params:[]
+                query: '',
+                params: []
             }
         },
         {
             names: {},
             assert: {
-                query:'',
-                params:[]
+                query: '',
+                params: []
             }
         },
         {
@@ -25,8 +25,8 @@ describe('VALUES names', function () {
                 ' ': ' '
             },
             assert: {
-                query:'',
-                params:[]
+                query: '',
+                params: []
             }
         },
         {
@@ -152,6 +152,18 @@ describe('VALUES object', function () {
             expect(query).to.deep.equal({
                 query: 'SET `names` = ?',
                 params: [assertOut]
+            });
+        });
+    });
+});
+
+describe.only('VALUES string', function () {
+    ['', '+', '-'].forEach(function (sign) {
+        it('should be "' + sign + '"', function () {
+            var query = values({names: sign});
+            expect(query).to.deep.equal({
+                query: 'SET `names` = ?',
+                params: [sign]
             });
         });
     });

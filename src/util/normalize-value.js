@@ -20,7 +20,7 @@ module.exports = function normalizeValue(value) {
     if (value.trim().match(/^true|false$/i)) {
         return value.trim().toLowerCase() === 'true';
     }
-    if (!isNaN(value)) {
+    if (!isNaN(value) && value.length) {
         return parseFloat(value);
     }
     return value;
