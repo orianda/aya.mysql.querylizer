@@ -157,7 +157,7 @@ describe('VALUES object', function () {
     });
 });
 
-describe.only('VALUES string', function () {
+describe('VALUES string', function () {
     ['', '+', '-'].forEach(function (sign) {
         it('should be "' + sign + '"', function () {
             var query = values({names: sign});

@@ -16,16 +16,6 @@ function formatName(value, name) {
 }
 
 /**
- * Remove invalid names
- * @param {*} value
- * @param {string} name
- * @returns {boolean}
- */
-function isStar(value, name) {
-    return name === starName;
-}
-
-/**
  * Format values query
  * @param {Object} values
  * @returns {Object}
@@ -33,7 +23,7 @@ function isStar(value, name) {
 module.exports = function (values) {
     var query;
     values = _.mapKeys(values, formatName);
-    values = _.omit(values, isStar);
+    delete values[starName];
     query = _.keys(values).join(', ');
     return {
         query: query ? 'SET ' + query : '',

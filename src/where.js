@@ -110,8 +110,8 @@ function transform(configs, value, index) {
  * @returns {Array,null}
  */
 function flatten(settings, mode) {
-    var queries = _.pluck(settings, 0),
-        params = _.pluck(settings, 1),
+    var queries = _.map(settings,0),
+        params = _.map(settings,1),
         query;
 
     if (queries.length === 0) {
@@ -147,8 +147,8 @@ function normalizeWhere(where) {
     });
     where = _.map(where, flatten);
     where = _.compact(where);
-    query = _.pluck(where, 0).join(' AND ');
-    params = _.pluck(where, 1);
+    query = _.map(where, 0).join(' AND ');
+    params = _.map(where, 1);
     params = _.flatten(params);
     params = params.map(normalizeValue);
     return [query, params];
