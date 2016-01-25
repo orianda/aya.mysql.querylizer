@@ -264,5 +264,19 @@ describe('WHERE', function () {
                 params: [31, 32, 30, 33, 41, 42, 40, 43, 51, 52, 50, 53, 61, 62, 60, 63, 11, 12, 10, 13, 21, 22, 20, 23, 71, 72, 70, 73, 81, 82, 80, 83]
             });
         });
+        describe('NULL', function () {
+            it('should be NULL', function () {
+                var query = where({
+                    'name1': null,
+                    '+name2': null,
+                    '-name3': null,
+                    '*name4': null
+                });
+                expect(query).to.deep.equal({
+                    query: 'WHERE `name2` IS NULL AND `name3` IS NOT NULL AND (`name1` IS NULL OR `name4` IS NULL)',
+                    params: []
+                });
+            })
+        });
     });
 });
