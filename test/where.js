@@ -45,7 +45,7 @@ describe('WHERE', function () {
                 '*name4': 3
             });
             expect(query).to.deep.equal({
-                query: 'WHERE `name2` = ? AND NOT (`name3` = ?) AND (`name1` = ? OR `name4` = ?)',
+                query: 'WHERE `name2` = ? AND `name3` <> ? AND (`name1` = ? OR `name4` = ?)',
                 params: [1, 2, 0, 3]
             });
         });
@@ -63,8 +63,8 @@ describe('WHERE', function () {
                 '*name8': 7
             });
             expect(query).to.deep.equal({
-                query: 'WHERE `name2` = ? AND `name6` = ? AND NOT (`name3` = ? OR `name7` = ?) AND (`name1` = ? OR `name4` = ? OR `name5` = ? OR `name8` = ?)',
-                params: [1, 5, 2, 6, 0, 3, 4, 7]
+                query: 'WHERE `name2` = ? AND `name3` <> ? AND `name6` = ? AND `name7` <> ? AND (`name1` = ? OR `name4` = ? OR `name5` = ? OR `name8` = ?)',
+                params: [1, 2, 5, 6, 0, 3, 4, 7]
             });
         });
     });
@@ -81,8 +81,8 @@ describe('WHERE', function () {
                 '*name8': false
             });
             expect(query).to.deep.equal({
-                query: 'WHERE `name2` = ? AND `name6` = ? AND NOT (`name3` = ? OR `name7` = ?) AND (`name1` = ? OR `name4` = ? OR `name5` = ? OR `name8` = ?)',
-                params: [true, false, true, false, true, true, false, false]
+                query: 'WHERE `name2` = ? AND `name3` <> ? AND `name6` = ? AND `name7` <> ? AND (`name1` = ? OR `name4` = ? OR `name5` = ? OR `name8` = ?)',
+                params: [true, true, false, false, true, true, false, false]
             });
         });
     });
@@ -100,19 +100,19 @@ describe('WHERE', function () {
                     min: 3,
                     max: 4
                 },
-                'name3': {
+                'name5': {
                     min: undefined
                 },
-                '+name4': {
+                '+name6': {
                     max: undefined
                 },
-                '-name5': {
+                '-name7': {
                     min: undefined,
                     max: undefined
                 }
             });
             expect(query).to.deep.equal({
-                query: 'WHERE `name2` >= ? AND NOT (`name3` <= ?) AND `name4` BETWEEN ? AND ?',
+                query: 'WHERE `name2` >= ? AND `name3` > ? AND `name4` BETWEEN ? AND ?',
                 params: [1, 2, 3, 4]
             });
         });
@@ -126,7 +126,7 @@ describe('WHERE', function () {
                 '*name4': [2, 3]
             });
             expect(query).to.deep.equal({
-                query: 'WHERE NOT (`name3` IN (?)) AND `name4` IN (?, ?)',
+                query: 'WHERE `name3` NOT IN (?) AND `name4` IN (?, ?)',
                 params: [1, 2, 3]
             });
         });
@@ -255,12 +255,12 @@ describe('WHERE', function () {
             });
             expect(query).to.deep.equal({
                 query: 'WHERE ' +
-                '(`name31` = ? AND NOT (`name32` = ?) AND (`name30` = ? OR `name33` = ?)) AND (`name41` = ? AND NOT (`name42` = ?) AND (`name40` = ? OR `name43` = ?)) AND ' +
-                'NOT ((`name51` = ? AND NOT (`name52` = ?) AND (`name50` = ? OR `name53` = ?)) OR (`name61` = ? AND NOT (`name62` = ?) AND (`name60` = ? OR `name63` = ?))) AND ' +
-                '((`name11` = ? AND NOT (`name12` = ?) AND (`name10` = ? OR `name13` = ?)) OR ' +
-                '(`name21` = ? AND NOT (`name22` = ?) AND (`name20` = ? OR `name23` = ?)) OR ' +
-                '(`name71` = ? AND NOT (`name72` = ?) AND (`name70` = ? OR `name73` = ?)) OR ' +
-                '(`name81` = ? AND NOT (`name82` = ?) AND (`name80` = ? OR `name83` = ?)))',
+                '(`name31` = ? AND `name32` <> ? AND (`name30` = ? OR `name33` = ?)) AND (`name41` = ? AND `name42` <> ? AND (`name40` = ? OR `name43` = ?)) AND ' +
+                'NOT ((`name51` = ? AND `name52` <> ? AND (`name50` = ? OR `name53` = ?)) OR (`name61` = ? AND `name62` <> ? AND (`name60` = ? OR `name63` = ?))) AND ' +
+                '((`name11` = ? AND `name12` <> ? AND (`name10` = ? OR `name13` = ?)) OR ' +
+                '(`name21` = ? AND `name22` <> ? AND (`name20` = ? OR `name23` = ?)) OR ' +
+                '(`name71` = ? AND `name72` <> ? AND (`name70` = ? OR `name73` = ?)) OR ' +
+                '(`name81` = ? AND `name82` <> ? AND (`name80` = ? OR `name83` = ?)))',
                 params: [31, 32, 30, 33, 41, 42, 40, 43, 51, 52, 50, 53, 61, 62, 60, 63, 11, 12, 10, 13, 21, 22, 20, 23, 71, 72, 70, 73, 81, 82, 80, 83]
             });
         });

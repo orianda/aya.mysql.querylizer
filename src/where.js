@@ -6,24 +6,26 @@ var _ = require('lodash'),
 
 /**
  * Format between clause
- * @param {string} name
  * @param {*} min
  * @param {*} max
+ * @param {boolean} negate
  * @returns {Array|null}
  */
-function normalizeBetween(name, min, max) {
+function normalizeBetween(min, max, negate) {
     var query, params;
-    name = normalizeNames([name]);
     if (_.isUndefined(min) && _.isUndefined(max)) {
         return null;
     } else if (_.isUndefined(min)) {
-        query = name + ' <= ?';
+        query = negate ? '> ?' : '<= ?';
         params = [max];
     } else if (_.isUndefined(max)) {
-        query = name + ' >= ?';
+        query = negate ? '< ?' : '>= ?';
         params = [min];
     } else {
-        query = name + ' BETWEEN ? AND ?';
+        query = 'BETWEEN ? AND ?';
+        if (negate) {
+            query = 'NOT ' + query;
+        }
         params = [min, max];
     }
     return [query, params];
@@ -31,17 +33,40 @@ function normalizeBetween(name, min, max) {
 
 /**
  * Format value set
- * @param {string} name
  * @param {string[]} values
+ * @param {boolean} negate
  * @returns {Array|null}
  */
-function normalizeSet(name, values) {
+function normalizeSet(values, negate) {
     values = _.compact(values);
     if (values.length) {
-        let query = normalizeNames([name]) + ' IN (' + ', ?'.repeat(values.length).substring(2) + ')';
+        let query = 'IN (' + ', ?'.repeat(values.length).substring(2) + ')';
+        if (negate) {
+            query = 'NOT ' + query;
+        }
         return [query, values];
     }
     return null;
+}
+
+/**
+ * Normalize common compare
+ * @param {*} value
+ * @param {boolean} negate
+ * @returns {Array}
+ */
+function normalizeCompare(value, negate) {
+    var query, params;
+    if (value === null) {
+        query = negate ? 'IS NOT' : 'IS';
+        query += ' NULL';
+        params = [];
+    } else {
+        query = negate ? '<>' : '=';
+        query += ' ?';
+        params = [value];
+    }
+    return [query, params];
 }
 
 /**
@@ -69,28 +94,29 @@ function normalizeSubWhere(where) {
  */
 function transform(configs, value, index) {
     var name = _.trim(index),
-        mode = name[0];
+        mode = name[0],
+        negate;
+
     if (mode === '-' || mode === '+' || mode === '*') {
         name = name.substring(1).trim();
     } else {
         mode = '*';
     }
 
+    negate = mode === '-';
+
     if (name) {
+        let config;
         if (Array.isArray(value)) {
-            let config = normalizeSet(name, value);
-            if (config) {
-                configs[mode].push(config);
-            }
+            config = normalizeSet(value, negate);
         } else if (_.isObject(value)) {
-            let config = normalizeBetween(name, value.min, value.max);
-            if (config) {
-                configs[mode].push(config);
-            }
+            config = normalizeBetween(value.min, value.max, negate);
         } else if (!_.isUndefined(value)) {
-            let query = normalizeNames([name]) + ' = ?',
-                params = [value];
-            configs[mode].push([query, params]);
+            config = normalizeCompare(value, negate);
+        }
+        if (config) {
+            config[0] = normalizeNames([name]) + ' ' + config[0];
+            configs[negate ? '+' : mode].push(config);
         }
     } else {
         if (Array.isArray(value)) {
@@ -110,8 +136,8 @@ function transform(configs, value, index) {
  * @returns {Array,null}
  */
 function flatten(settings, mode) {
-    var queries = _.map(settings,0),
-        params = _.map(settings,1),
+    var queries = _.map(settings, 0),
+        params = _.map(settings, 1),
         query;
 
     if (queries.length === 0) {
@@ -157,7 +183,7 @@ function normalizeWhere(where) {
 /**
  * Format where
  * @param {Object} where
- * @returns {Array}
+ * @returns {Object}
  */
 module.exports = function (where) {
     var issue = normalizeWhere(where),
