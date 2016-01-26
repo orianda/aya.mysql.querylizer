@@ -11,6 +11,9 @@ module.exports = function normalizeValue(value) {
     if (Array.isArray(value)) {
         return _.map(value, normalizeValue);
     }
+    if (value instanceof Date) {
+        return value;
+    }
     if (_.isObject(value)) {
         return _.mapValues(value, normalizeValue);
     }

@@ -276,7 +276,96 @@ describe('WHERE', function () {
                     query: 'WHERE `name2` IS NULL AND `name3` IS NOT NULL AND (`name1` IS NULL OR `name4` IS NULL)',
                     params: []
                 });
-            })
+            });
+        });
+        describe('Date', function () {
+            it('should be formatted', function () {
+                var date = new Date(),
+                    query = where({
+                        name1: date,
+                        name2: [date],
+                        name3: {
+                            min: date
+                        },
+                        name4: {
+                            max: date
+                        },
+                        name5: {
+                            min: date,
+                            max: date
+                        }
+                    });
+                expect(query).to.deep.equal({
+                    query:'WHERE (`name1` = ? OR `name2` IN (?) OR `name3` >= ? OR `name4` <= ? OR `name5` BETWEEN ? AND ?)',
+                    params:[date,date,date,date,date,date]
+                });
+            });
+        });
+        describe('BETWEEN', function () {
+            it('should be min', function () {
+                var query = where({
+                    'name1': {
+                        min: 10
+                    },
+                    '+name2': {
+                        min: 10
+                    },
+                    '-name3': {
+                        min: 10
+                    },
+                    '*name4': {
+                        min: 10
+                    }
+                });
+                expect(query).to.deep.equal({
+                    query: 'WHERE `name2` >= ? AND `name3` < ? AND (`name1` >= ? OR `name4` >= ?)',
+                    params: [10, 10, 10, 10]
+                });
+            });
+            it('should be max', function () {
+                var query = where({
+                    'name1': {
+                        max: 10
+                    },
+                    '+name2': {
+                        max: 10
+                    },
+                    '-name3': {
+                        max: 10
+                    },
+                    '*name4': {
+                        max: 10
+                    }
+                });
+                expect(query).to.deep.equal({
+                    query: 'WHERE `name2` <= ? AND `name3` > ? AND (`name1` <= ? OR `name4` <= ?)',
+                    params: [10, 10, 10, 10]
+                });
+            });
+            it('should be in between', function () {
+                var query = where({
+                    'name1': {
+                        min: 10,
+                        max: 10
+                    },
+                    '+name2': {
+                        min: 10,
+                        max: 10
+                    },
+                    '-name3': {
+                        min: 10,
+                        max: 10
+                    },
+                    '*name4': {
+                        min: 10,
+                        max: 10
+                    }
+                });
+                expect(query).to.deep.equal({
+                    query: 'WHERE `name2` BETWEEN ? AND ? AND `name3` NOT BETWEEN ? AND ? AND (`name1` BETWEEN ? AND ? OR `name4` BETWEEN ? AND ?)',
+                    params: [10, 10, 10, 10, 10, 10, 10, 10]
+                });
+            });
         });
     });
 });

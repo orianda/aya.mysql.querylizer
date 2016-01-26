@@ -109,6 +109,8 @@ function transform(configs, value, index) {
         let config;
         if (Array.isArray(value)) {
             config = normalizeSet(value, negate);
+        } else if (value instanceof Date) {
+            config = normalizeCompare(value, negate);
         } else if (_.isObject(value)) {
             config = normalizeBetween(value.min, value.max, negate);
         } else if (!_.isUndefined(value)) {
