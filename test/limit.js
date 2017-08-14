@@ -1,9 +1,10 @@
 'use strict';
 
-var expect = require('chai').expect,
-    limit = require('../src/limit');
+const expect = require('chai').expect;
+const formatLimit = require('../src/limit');
 
 describe('LIMIT', function () {
+
     [
         {
             amount: undefined,
@@ -51,9 +52,11 @@ describe('LIMIT', function () {
             assert: 'LIMIT 1, 1'
         }
     ].forEach(function (config) {
+
         describe(JSON.stringify([config.amount, config.offset]), function () {
+
             it('should be "' + config.assert + '"', function () {
-                var query = limit(config.amount, config.offset);
+                const query = formatLimit(config.amount, config.offset);
                 expect(query).to.equal(config.assert);
             });
         });

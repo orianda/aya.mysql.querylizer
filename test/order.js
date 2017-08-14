@@ -1,9 +1,10 @@
 'use strict';
 
-var expect = require('chai').expect,
-    order = require('../src/order');
+const expect = require('chai').expect;
+const formatOrder = require('../src/order');
 
 describe('ORDER', function () {
+
     [
         {
             names: undefined,
@@ -15,7 +16,7 @@ describe('ORDER', function () {
         },
         {
             names: [undefined, '', ' '],
-            assert: ''
+            assert: 'ORDER BY ` ` ASC'
         },
         {
             names: ['name'],
@@ -42,9 +43,11 @@ describe('ORDER', function () {
             assert: 'ORDER BY `1` ASC, `2` ASC, `3` DESC'
         }
     ].forEach(function (config) {
-        describe(JSON.stringify(config.names), function () {
+
+        describe(String(JSON.stringify(config.names)), function () {
+
             it('should be "' + config.assert + '"', function () {
-                var query = order(config.names);
+                const query = formatOrder(config.names);
                 expect(query).to.equal(config.assert);
             });
         });

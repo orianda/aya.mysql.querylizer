@@ -1,26 +1,6 @@
 'use strict';
 
-var _ = require('lodash');
-
-/**
- * Encode order value
- * @param {Object} order
- * @param {string} name
- * @returns {Object}
- */
-function encodeOrder(order, name) {
-    var dir;
-    name = _.trim(name);
-    dir = name[0];
-    if (dir === '+' || dir === '-') {
-        name = name.substring(1).trim();
-    }
-    if (name.length) {
-        dir = dir === '-' ? 'DESC' : 'ASC';
-        order[name] = '`' + name + '` ' + dir;
-    }
-    return order;
-}
+const formatName = require('./name');
 
 /**
  * Format order
@@ -28,7 +8,23 @@ function encodeOrder(order, name) {
  * @returns {string}
  */
 module.exports = function (order) {
-    order = _.reduce(order, encodeOrder, {});
-    order = _.values(order);
-    return order.length ? 'ORDER BY ' + order.join(', ') : '';
+  const query = (Array.isArray(order) ? order : [])
+    .map((name) => {
+      let desc = false;
+      name = formatName(name);
+      name = name.substring(1, name.length - 1);
+      if ((/^[+-]/).test(name)) {
+        desc = name.substring(0, 1) === '-';
+        name = name.substring(1);
+      }
+      return {name, desc};
+    })
+    .filter((entry) => entry.name.length)
+    .filter((entry, index, array) => {
+      return array
+        .slice(index + 1)
+        .every((e) => e.name !== entry.name);
+    })
+    .map((entry) => formatName(entry.name) + ' ' + (entry.desc ? 'DESC' : 'ASC'));
+  return query.length ? 'ORDER BY ' + query.join(', ') : '';
 };
