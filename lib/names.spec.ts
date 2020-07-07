@@ -10,6 +10,58 @@ describe('NAMES', () => {
       assert: '*'
     },
     {
+      names: true,
+      assert: '*'
+    },
+    {
+      names: false,
+      assert: '*'
+    },
+    {
+      names: 1,
+      assert: '`1`'
+    },
+    {
+      names: -1,
+      assert: '`-1`'
+    },
+    {
+      names: NaN,
+      assert: '*'
+    },
+    {
+      names: -NaN,
+      assert: '*'
+    },
+    {
+      names: Infinity,
+      assert: '*'
+    },
+    {
+      names: -Infinity,
+      assert: '*'
+    },
+    {
+      names: -Infinity,
+      assert: '*'
+    },
+    {
+      names: '',
+      assert: '``'
+    },
+    {
+      names: ' ',
+      assert: '` `'
+    },
+    {
+      names: 'name',
+      assert: '`name`'
+    },
+    {
+      names: null,
+      assert: '*'
+    },
+    {
       names: [],
       assert: '*'
     },

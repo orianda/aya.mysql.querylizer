@@ -1,6 +1,6 @@
 import formatName from "./name";
 import formatValue from "./value";
-import {NamesDto} from "./names.dto";
+import {NamesListDto} from "./names.dto";
 import {ValuesDto, ValuesItemDto, ValuesListDto} from "./values.dto";
 
 const formatList = (values: ValuesListDto) => {
@@ -9,7 +9,7 @@ const formatList = (values: ValuesListDto) => {
       .keys(row)
       .filter((key) => keys.indexOf(key) < 0);
     return keys.concat(list);
-  }, [] as NamesDto);
+  }, [] as NamesListDto);
   const rows = values.map((row) => {
     const query = keys
       .map((name) => formatValue(row[name]))
