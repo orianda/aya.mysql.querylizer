@@ -1,0 +1,14 @@
+/.git
+/.idea
+/.nyc_output
+/coverage
+/lib
+/node_modules
+/.editorconfig
+/.gitignore
+/.mocharc.json
+/.npmignore
+/.nycrc.json
+/package-lock.json
+/tsconfig.json
+/tslint.json

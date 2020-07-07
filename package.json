@@ -1,34 +1,44 @@
 {
   "name": "aya.mysql.querylizer",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "AYA MySQL querylizer",
-  "main": "src/index.js",
-  "directories": {
-    "test": "test"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "chai": "^4.1.1",
-    "mocha": "^3.5.0",
-    "nyc": "^11.1.0"
-  },
-  "scripts": {
-    "test": "node node_modules/mocha/bin/mocha --recursive",
-    "test:coverage": "nyc --reporter=text --reporter=html npm test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/orianda/aya.mysql.querylizer.git"
+  "license": "UNLICENSED",
+  "private": true,
+  "author": {
+    "name": "Orianda",
+    "email": "orianda@paan.de",
+    "url": "https://github.com/orianda"
   },
   "keywords": [
     "aya",
     "mysql",
     "querylizer"
   ],
-  "author": "orianda <orianda@paan.de>",
-  "license": "GNU",
+  "homepage": "https://github.com/orianda/aya.mysql.querylizer#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orianda/aya.mysql.querylizer.git"
+  },
   "bugs": {
     "url": "https://github.com/orianda/aya.mysql.querylizer/issues"
   },
-  "homepage": "https://github.com/orianda/aya.mysql.querylizer#readme"
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "test": "mocha",
+    "coverage": "nyc mocha"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "chai": "^4.2.0",
+    "mocha": "^8.0.1",
+    "nyc": "^15.1.0",
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.6"
+  }
 }

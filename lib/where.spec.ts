@@ -1,29 +1,28 @@
-'use strict';
+import {expect} from "chai";
+import formatWhere from "./where";
+import {WhereDto} from "./where.dto";
 
-const expect = require('chai').expect;
-const formatWhere = require('../src/where');
+describe('WHERE', () => {
 
-describe('WHERE', function () {
+  describe('undefined', () => {
 
-  describe('undefined', function () {
-
-    it('should be empty', function () {
+    it('should be empty', () => {
       const query = formatWhere(undefined);
       expect(query).to.equal('');
     });
   });
 
-  describe('{}', function () {
+  describe('{}', () => {
 
-    it('should be empty', function () {
+    it('should be empty', () => {
       const query = formatWhere({});
       expect(query).to.equal('');
     });
   });
 
-  describe('undefined values', function () {
+  describe('undefined values', () => {
 
-    it('should search for unfilled values', function () {
+    it('should search for unfilled values', () => {
       const query = formatWhere({
         'name1': undefined,
         '+name2': undefined,
@@ -34,9 +33,9 @@ describe('WHERE', function () {
     });
   });
 
-  describe('single params order', function () {
+  describe('single params order', () => {
 
-    it('should work', function () {
+    it('should work', () => {
       const query = formatWhere({
         'name1': 0,
         '+name2': 1,
@@ -47,9 +46,9 @@ describe('WHERE', function () {
     });
   });
 
-  describe('double params order', function () {
+  describe('double params order', () => {
 
-    it('should work', function () {
+    it('should work', () => {
       const query = formatWhere({
         'name1': 0,
         '+name2': 1,
@@ -64,9 +63,9 @@ describe('WHERE', function () {
     });
   });
 
-  describe('boolean', function () {
+  describe('boolean', () => {
 
-    it('should be normalized', function () {
+    it('should be normalized', () => {
       const query = formatWhere({
         'name1': true,
         '+name2': 'true',
@@ -78,18 +77,18 @@ describe('WHERE', function () {
         '*name8': false
       });
       expect(query).to.equal('WHERE ' +
-          '`name2` = "true" AND ' +
-          '`name3` <> "TRUE" AND ' +
-          '`name6` = "false" AND ' +
-          '`name7` <> "FALSE" AND ' +
-          '(`name1` = TRUE OR `name4` = TRUE OR `name5` = FALSE OR `name8` = FALSE)'
+        '`name2` = "true" AND ' +
+        '`name3` <> "TRUE" AND ' +
+        '`name6` = "false" AND ' +
+        '`name7` <> "FALSE" AND ' +
+        '(`name1` = TRUE OR `name4` = TRUE OR `name5` = FALSE OR `name8` = FALSE)'
       );
     });
   });
 
-  describe('between', function () {
+  describe('between', () => {
 
-    it('should be a range', function () {
+    it('should be a range', () => {
       const query = formatWhere({
         'name1': {},
         '+name2': {
@@ -117,9 +116,9 @@ describe('WHERE', function () {
     });
   });
 
-  describe('collection', function () {
+  describe('collection', () => {
 
-    it('should be empty', function () {
+    it('should be empty', () => {
       const query = formatWhere({
         'name1': [],
         '+name2': [undefined],
@@ -130,9 +129,9 @@ describe('WHERE', function () {
     });
   });
 
-  describe('invalid collections 1', function () {
+  describe('invalid collections 1', () => {
 
-    it('should be empty', function () {
+    it('should be empty', () => {
       const query = formatWhere({
         '': 0,
         '+': 1,
@@ -143,9 +142,9 @@ describe('WHERE', function () {
     });
   });
 
-  describe('invalid collections 2', function () {
+  describe('invalid collections 2', () => {
 
-    it('should be empty', function () {
+    it('should be empty', () => {
       const query = formatWhere({
         '': {
           'name10': 0,
@@ -176,22 +175,22 @@ describe('WHERE', function () {
     });
   });
 
-  describe('invalid collection values', function () {
+  describe('invalid collection values', () => {
 
-    it('should be empty', function () {
+    it('should be empty', () => {
       const query = formatWhere({
         '': [undefined, 1, true, false, '', ' ', 'value', [], {}],
         '+': [undefined, 1, true, false, '', ' ', 'value', [], {}],
         '-': [undefined, 1, true, false, '', ' ', 'value', [], {}],
         '*': [undefined, 1, true, false, '', ' ', 'value', [], {}]
-      });
+      } as WhereDto);
       expect(query).to.equal('');
     });
   });
 
-  describe('valid collection', function () {
+  describe('valid collection', () => {
 
-    it('should be formatted', function () {
+    it('should be formatted', () => {
       const query = formatWhere({
         '': [
           {
@@ -260,22 +259,22 @@ describe('WHERE', function () {
     });
   });
 
-  describe('NULL', function () {
+  describe('NULL', () => {
 
-    it('should be NULL', function () {
+    it('should be NULL', () => {
       const query = formatWhere({
-        'name1': null,
-        '+name2': null,
-        '-name3': null,
-        '*name4': null
+        'name1': undefined,
+        '+name2': undefined,
+        '-name3': undefined,
+        '*name4': undefined
       });
       expect(query).to.equal('WHERE `name2` IS NULL AND `name3` IS NOT NULL AND (`name1` IS NULL OR `name4` IS NULL)');
     });
   });
 
-  describe('Date', function () {
+  describe('Date', () => {
 
-    it('should be formatted', function () {
+    it('should be formatted', () => {
       const date = new Date(1502579091963);
       const query = formatWhere({
         name1: date,
@@ -292,18 +291,18 @@ describe('WHERE', function () {
         }
       });
       expect(query).to.equal('WHERE (' +
-          '`name1` = "2017-08-12T23:04:51.963Z" OR ' +
-          '`name2` IN ("2017-08-12T23:04:51.963Z") OR ' +
-          '`name3` >= "2017-08-12T23:04:51.963Z" OR ' +
-          '`name4` <= "2017-08-12T23:04:51.963Z" OR ' +
-          '`name5` BETWEEN "2017-08-12T23:04:51.963Z" AND "2017-08-12T23:04:51.963Z")'
+        '`name1` = 1502579091963 OR ' +
+        '`name2` IN (1502579091963) OR ' +
+        '`name3` >= 1502579091963 OR ' +
+        '`name4` <= 1502579091963 OR ' +
+        '`name5` BETWEEN 1502579091963 AND 1502579091963)'
       );
     });
   });
 
-  describe('BETWEEN', function () {
+  describe('BETWEEN', () => {
 
-    it('should be min', function () {
+    it('should be min', () => {
       const query = formatWhere({
         'name1': {
           min: 10
@@ -321,7 +320,7 @@ describe('WHERE', function () {
       expect(query).to.equal('WHERE `name2` >= 10 AND `name3` < 10 AND (`name1` >= 10 OR `name4` >= 10)');
     });
 
-    it('should be max', function () {
+    it('should be max', () => {
       const query = formatWhere({
         'name1': {
           max: 10
@@ -339,7 +338,7 @@ describe('WHERE', function () {
       expect(query).to.equal('WHERE `name2` <= 10 AND `name3` > 10 AND (`name1` <= 10 OR `name4` <= 10)');
     });
 
-    it('should be in between', function () {
+    it('should be in between', () => {
       const query = formatWhere({
         'name1': {
           min: 10,

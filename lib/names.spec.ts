@@ -1,9 +1,8 @@
-'use strict';
+import {expect} from "chai";
+import formatNames from "./names";
+import {NamesDto} from "./names.dto";
 
-const expect = require('chai').expect;
-const formatNames = require('../src/names');
-
-describe('NAMES', function () {
+describe('NAMES', () => {
 
   [
     {
@@ -16,7 +15,7 @@ describe('NAMES', function () {
     },
     {
       names: [undefined, '', ' '],
-      assert: '` `'
+      assert: '``, ` `'
     },
     {
       names: ['name'],
@@ -40,19 +39,19 @@ describe('NAMES', function () {
     },
     {
       names: [{}, []],
-      assert: '`[object Object]`'
+      assert: '*'
     },
     {
       names: [{a: 1}, [1, 2]],
-      assert: '`[object Object]`, `1,2`'
+      assert: '*'
     }
-  ].forEach(function (config) {
+  ].forEach(({names, assert}) => {
 
-    describe(String(JSON.stringify(config.names)), function () {
+    describe(String(JSON.stringify(names)), () => {
 
-      it('should be "' + config.assert + '"', function () {
-        const query = formatNames(config.names);
-        expect(query).to.equal(config.assert);
+      it(`should be "${assert}"`, () => {
+        const query = formatNames(names as NamesDto);
+        expect(query).to.equal(assert);
       });
     });
   });
