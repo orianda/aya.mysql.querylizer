@@ -96,8 +96,8 @@ describe('VALUE', () => {
   describe('Date', () => {
 
     it('should format valid date', () => {
-      const query = formatValue(new Date('2017-08-12T23:04:51.963Z'));
-      expect(query).to.equal('1502579091963');
+      const query = formatValue(new Date(1502579091963));
+      expect(query).to.equal('"2017-08-12T23:04:51.963Z"');
     });
 
     it('should format invalid date', () => {

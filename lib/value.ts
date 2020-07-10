@@ -17,7 +17,12 @@ const encodeBoolean = (value: boolean) => {
 
 const encodeDate = (value: Date) => {
   const time = value.getTime();
-  return isNaN(time) ? 'NULL' : time.toString();
+  if (isNaN(time)) {
+    return 'NULL';
+  }
+
+  const string = value.toISOString();
+  return encodeString(string);
 }
 
 export default (value: ValueDto): string => {
