@@ -1,3 +1,3 @@
-import { ValuesItemDto, ValuesListDto } from "./values.dto";
-declare const _default: (values?: ValuesListDto | ValuesItemDto | undefined) => string;
+import { ValuesDto } from "./values.dto";
+declare const _default: (values?: ValuesDto | undefined) => string;
 export default _default;

@@ -22,50 +22,49 @@ const sql = (chunks, ...args) => {
         .join(' ');
 };
 class Table {
-    constructor(name) {
+    constructor(name, schema = '') {
         this.name = name;
+        this.schema = schema;
+        this.reference = [schema, name]
+            .filter((value) => !!value)
+            .map(name_1.default)
+            .join('.');
     }
     count(where, amount, offset) {
-        const name = name_1.default(this.name);
         const queryWhere = where_1.default(where);
         const queryLimit = limit_1.default(amount, offset);
-        return sql `SELECT COUNT(*) AS \`amount\` FROM ${name} ${queryWhere} ${queryLimit}`;
+        return sql `SELECT COUNT(*) AS \`amount\` FROM ${this.reference} ${queryWhere} ${queryLimit}`;
     }
     select(names, where, amount, offset, order) {
-        const name = name_1.default(this.name);
         const queryNames = names_1.default(names);
         const queryWhere = where_1.default(where);
         const queryOrder = order_1.default(order);
         const queryLimit = limit_1.default(amount, offset);
-        return sql `SELECT ${queryNames} FROM ${name} ${queryWhere} ${queryOrder} ${queryLimit}`;
+        return sql `SELECT ${queryNames} FROM ${this.reference} ${queryWhere} ${queryOrder} ${queryLimit}`;
     }
     insert(values) {
-        const name = name_1.default(this.name);
         const queryValues = values_1.default(values) || '() VALUES ()';
-        return sql `INSERT INTO ${name} ${queryValues}`;
+        return sql `INSERT INTO ${this.reference} ${queryValues}`;
     }
     update(values, where, amount, offset, order) {
-        const name = name_1.default(this.name);
         const queryValues = values_1.default(values);
         const queryWhere = where_1.default(where);
         const queryOrder = order_1.default(order);
         const queryLimit = limit_1.default(amount, offset);
-        return queryValues && sql `UPDATE ${name} ${queryValues} ${queryWhere} ${queryOrder} ${queryLimit}`;
+        return queryValues && sql `UPDATE ${this.reference} ${queryValues} ${queryWhere} ${queryOrder} ${queryLimit}`;
     }
     replace(values, where, amount, offset, order) {
-        const name = name_1.default(this.name);
         const queryValues = values_1.default(values);
         const queryWhere = where_1.default(where);
         const queryOrder = order_1.default(order);
         const queryLimit = limit_1.default(amount, offset);
-        return queryValues && sql `REPLACE ${name} ${queryValues} ${queryWhere} ${queryOrder} ${queryLimit}`;
+        return queryValues && sql `REPLACE ${this.reference} ${queryValues} ${queryWhere} ${queryOrder} ${queryLimit}`;
     }
     remove(where, amount, offset, order) {
-        const name = name_1.default(this.name);
         const queryWhere = where_1.default(where);
         const queryOrder = order_1.default(order);
         const queryLimit = limit_1.default(amount, offset);
-        return sql `DELETE FROM ${name} ${queryWhere} ${queryOrder} ${queryLimit}`;
+        return sql `DELETE FROM ${this.reference} ${queryWhere} ${queryOrder} ${queryLimit}`;
     }
 }
 exports.default = Table;
