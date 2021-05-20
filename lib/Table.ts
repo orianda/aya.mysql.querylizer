@@ -25,56 +25,57 @@ const sql = (chunks: ReadonlyArray<string>, ...args: ReadonlyArray<string>) => {
 
 export default class Table {
 
+  private readonly reference: string;
+
   constructor(
-    public readonly name: string
+    public readonly name: string,
+    public readonly schema: string = ''
   ) {
+    this.reference = [schema, name]
+      .filter((value) => !!value)
+      .map(formatName)
+      .join('.');
   }
 
   count(where?: WhereDto, amount?: AmountDto, offset?: OffsetDto): string {
-    const name = formatName(this.name);
     const queryWhere = formatWhere(where);
     const queryLimit = formatLimit(amount, offset);
-    return sql`SELECT COUNT(*) AS \`amount\` FROM ${name} ${queryWhere} ${queryLimit}`;
+    return sql`SELECT COUNT(*) AS \`amount\` FROM ${this.reference} ${queryWhere} ${queryLimit}`;
   }
 
   select(names?: NamesDto, where?: WhereDto, amount?: AmountDto, offset?: OffsetDto, order?: OrderDto): string {
-    const name = formatName(this.name);
     const queryNames = formatNames(names);
     const queryWhere = formatWhere(where);
     const queryOrder = formatOrder(order);
     const queryLimit = formatLimit(amount, offset);
-    return sql`SELECT ${queryNames} FROM ${name} ${queryWhere} ${queryOrder} ${queryLimit}`;
+    return sql`SELECT ${queryNames} FROM ${this.reference} ${queryWhere} ${queryOrder} ${queryLimit}`;
   }
 
   insert(values?: ValuesDto): string {
-    const name = formatName(this.name);
     const queryValues = formatValues(values) || '() VALUES ()';
-    return sql`INSERT INTO ${name} ${queryValues}`;
+    return sql`INSERT INTO ${this.reference} ${queryValues}`;
   }
 
   update(values?: ValuesDto, where?: WhereDto, amount?: AmountDto, offset?: OffsetDto, order?: OrderDto): string {
-    const name = formatName(this.name);
     const queryValues = formatValues(values);
     const queryWhere = formatWhere(where);
     const queryOrder = formatOrder(order);
     const queryLimit = formatLimit(amount, offset);
-    return queryValues && sql`UPDATE ${name} ${queryValues} ${queryWhere} ${queryOrder} ${queryLimit}`;
+    return queryValues && sql`UPDATE ${this.reference} ${queryValues} ${queryWhere} ${queryOrder} ${queryLimit}`;
   }
 
   replace(values?: ValuesDto, where?: WhereDto, amount?: AmountDto, offset?: OffsetDto, order?: OrderDto): string {
-    const name = formatName(this.name);
     const queryValues = formatValues(values);
     const queryWhere = formatWhere(where);
     const queryOrder = formatOrder(order);
     const queryLimit = formatLimit(amount, offset);
-    return queryValues && sql`REPLACE ${name} ${queryValues} ${queryWhere} ${queryOrder} ${queryLimit}`;
+    return queryValues && sql`REPLACE ${this.reference} ${queryValues} ${queryWhere} ${queryOrder} ${queryLimit}`;
   }
 
   remove(where?: WhereDto, amount?: AmountDto, offset?: OffsetDto, order?: OrderDto): string {
-    const name = formatName(this.name);
     const queryWhere = formatWhere(where);
     const queryOrder = formatOrder(order);
     const queryLimit = formatLimit(amount, offset);
-    return sql`DELETE FROM ${name} ${queryWhere} ${queryOrder} ${queryLimit}`;
+    return sql`DELETE FROM ${this.reference} ${queryWhere} ${queryOrder} ${queryLimit}`;
   }
 }
