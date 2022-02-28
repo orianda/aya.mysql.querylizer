@@ -12,10 +12,10 @@ import libEntry from "./Entry";
 
 describe('index', () => {
   const srv: {
-    [name: string]: any;
+    [name: string]: unknown;
   } = {name, names, value, values, where, order, limit, Table, Entry};
   const lib: {
-    [name: string]: any;
+    [name: string]: unknown;
   } = {
     name: libName,
     names: libNames,
