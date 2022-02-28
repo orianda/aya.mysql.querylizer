@@ -1,14 +1,13 @@
+import formatLimit from "./limit";
+import {AmountDto, OffsetDto} from "./limit.dto";
 import formatName from "./name";
 import formatNames from "./names";
-import formatWhere from "./where";
-import formatOrder from "./order";
-import formatLimit from "./limit";
-import formatValues from "./values";
 import {NamesDto} from "./names.dto";
-import {WhereDto} from "./where.dto";
+import formatOrder from "./order";
 import {OrderDto} from "./order.dto";
-import {AmountDto, OffsetDto} from "./limit.dto";
+import formatValues from "./values";
 import {ValuesDto} from "./values.dto";
+import {where as formatWhere, WhereDto} from "./where";
 
 const sql = (chunks: ReadonlyArray<string>, ...args: ReadonlyArray<string>) => {
   const query = [];

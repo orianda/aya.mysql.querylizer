@@ -4,7 +4,7 @@ import libName from "./name";
 import libNames from "./names";
 import libValue from "./value";
 import libValues from "./values";
-import libWhere from "./where";
+import {where as libWhere} from "./where";
 import libOrder from "./order";
 import libLimit from "./limit";
 import libTable from "./Table";

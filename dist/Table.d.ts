@@ -1,8 +1,8 @@
-import { NamesDto } from "./names.dto";
-import { WhereDto } from "./where.dto";
-import { OrderDto } from "./order.dto";
 import { AmountDto, OffsetDto } from "./limit.dto";
+import { NamesDto } from "./names.dto";
+import { OrderDto } from "./order.dto";
 import { ValuesDto } from "./values.dto";
+import { WhereDto } from "./where";
 export default class Table {
     readonly name: string;
     readonly schema: string;

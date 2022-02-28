@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import formatWhere from "./where";
-import {WhereDto} from "./where.dto";
+import {WhereDto} from "./types";
+import {where as formatWhere} from "./where";
 
 describe('WHERE', () => {
 
@@ -29,7 +29,7 @@ describe('WHERE', () => {
         '-name3': undefined,
         '*name4': undefined
       });
-      expect(query).to.equal('WHERE `name2` IS NULL AND `name3` IS NOT NULL AND (`name1` IS NULL OR `name4` IS NULL)');
+      expect(query).to.equal('WHERE (`name1` IS NULL OR `name4` IS NULL) AND `name2` IS NULL AND `name3` IS NOT NULL');
     });
   });
 
@@ -42,7 +42,7 @@ describe('WHERE', () => {
         '-name3': 2,
         '*name4': 3
       });
-      expect(query).to.equal('WHERE `name2` = 1 AND `name3` <> 2 AND (`name1` = 0 OR `name4` = 3)');
+      expect(query).to.equal('WHERE (`name1` = 0 OR `name4` = 3) AND `name2` = 1 AND `name3` <> 2');
     });
   });
 
@@ -59,7 +59,7 @@ describe('WHERE', () => {
         '-name7': 6,
         '*name8': 7
       });
-      expect(query).to.equal('WHERE `name2` = 1 AND `name3` <> 2 AND `name6` = 5 AND `name7` <> 6 AND (`name1` = 0 OR `name4` = 3 OR `name5` = 4 OR `name8` = 7)');
+      expect(query).to.equal('WHERE (`name1` = 0 OR `name4` = 3 OR `name5` = 4 OR `name8` = 7) AND `name2` = 1 AND `name3` <> 2 AND `name6` = 5 AND `name7` <> 6');
     });
   });
 
@@ -77,11 +77,11 @@ describe('WHERE', () => {
         '*name8': false
       });
       expect(query).to.equal('WHERE ' +
+        '(`name1` = TRUE OR `name4` = TRUE OR `name5` = FALSE OR `name8` = FALSE) AND ' +
         '`name2` = "true" AND ' +
         '`name3` <> "TRUE" AND ' +
         '`name6` = "false" AND ' +
-        '`name7` <> "FALSE" AND ' +
-        '(`name1` = TRUE OR `name4` = TRUE OR `name5` = FALSE OR `name8` = FALSE)'
+        '`name7` <> "FALSE"'
       );
     });
   });
@@ -112,7 +112,7 @@ describe('WHERE', () => {
           max: undefined
         }
       });
-      expect(query).to.equal('WHERE `name2` >= 1 AND `name3` > 2 AND `name4` BETWEEN 3 AND 4');
+      expect(query).to.equal('WHERE `name4` BETWEEN 3 AND 4 AND `name2` >= 1 AND `name3` > 2');
     });
   });
 
@@ -125,7 +125,7 @@ describe('WHERE', () => {
         '-name3': [1],
         '*name4': [2, 3]
       });
-      expect(query).to.equal('WHERE `name2` IN (NULL) AND `name3` NOT IN (1) AND `name4` IN (2, 3)');
+      expect(query).to.equal('WHERE `name4` IN (2, 3) AND `name2` IN (NULL) AND `name3` NOT IN (1)');
     });
   });
 
@@ -170,7 +170,7 @@ describe('WHERE', () => {
           '-name42': 2,
           '*name43': 3
         }
-      });
+      } as WhereDto);
       expect(query).to.equal('');
     });
   });
@@ -250,12 +250,13 @@ describe('WHERE', () => {
         ]
       });
       expect(query).to.equal('WHERE ' +
-        '`name31` = 31 AND `name32` <> 32 AND (`name30` = 30 OR `name33` = 33) AND `name41` = 41 AND `name42` <> 42 AND (`name40` = 40 OR `name43` = 43) AND ' +
-        'NOT (`name51` = 51 AND `name52` <> 52 AND (`name50` = 50 OR `name53` = 53) OR `name61` = 61 AND `name62` <> 62 AND (`name60` = 60 OR `name63` = 63)) AND ' +
-        '(`name11` = 11 AND `name12` <> 12 AND (`name10` = 10 OR `name13` = 13) OR ' +
-        '`name21` = 21 AND `name22` <> 22 AND (`name20` = 20 OR `name23` = 23) OR ' +
-        '`name71` = 71 AND `name72` <> 72 AND (`name70` = 70 OR `name73` = 73) OR ' +
-        '`name81` = 81 AND `name82` <> 82 AND (`name80` = 80 OR `name83` = 83))');
+        '((`name10` = 10 OR `name13` = 13) AND `name11` = 11 AND `name12` <> 12 OR ' +
+        '(`name20` = 20 OR `name23` = 23) AND `name21` = 21 AND `name22` <> 22 OR ' +
+        '(`name70` = 70 OR `name73` = 73) AND `name71` = 71 AND `name72` <> 72 OR ' +
+        '(`name80` = 80 OR `name83` = 83) AND `name81` = 81 AND `name82` <> 82) AND ' +
+        '(`name30` = 30 OR `name33` = 33) AND `name31` = 31 AND `name32` <> 32 AND ' +
+        '(`name40` = 40 OR `name43` = 43) AND `name41` = 41 AND `name42` <> 42 AND ' +
+        'NOT ((`name50` = 50 OR `name53` = 53) AND `name51` = 51 AND `name52` <> 52 OR (`name60` = 60 OR `name63` = 63) AND `name61` = 61 AND `name62` <> 62)');
     });
   });
 
@@ -268,7 +269,7 @@ describe('WHERE', () => {
         '-name3': undefined,
         '*name4': undefined
       });
-      expect(query).to.equal('WHERE `name2` IS NULL AND `name3` IS NOT NULL AND (`name1` IS NULL OR `name4` IS NULL)');
+      expect(query).to.equal('WHERE (`name1` IS NULL OR `name4` IS NULL) AND `name2` IS NULL AND `name3` IS NOT NULL');
     });
   });
 
@@ -317,7 +318,7 @@ describe('WHERE', () => {
           min: 10
         }
       });
-      expect(query).to.equal('WHERE `name2` >= 10 AND `name3` < 10 AND (`name1` >= 10 OR `name4` >= 10)');
+      expect(query).to.equal('WHERE (`name1` >= 10 OR `name4` >= 10) AND `name2` >= 10 AND `name3` < 10');
     });
 
     it('should be max', () => {
@@ -335,7 +336,7 @@ describe('WHERE', () => {
           max: 10
         }
       });
-      expect(query).to.equal('WHERE `name2` <= 10 AND `name3` > 10 AND (`name1` <= 10 OR `name4` <= 10)');
+      expect(query).to.equal('WHERE (`name1` <= 10 OR `name4` <= 10) AND `name2` <= 10 AND `name3` > 10');
     });
 
     it('should be in between', () => {
@@ -357,7 +358,7 @@ describe('WHERE', () => {
           max: 10
         }
       });
-      expect(query).to.equal('WHERE `name2` BETWEEN 10 AND 10 AND `name3` NOT BETWEEN 10 AND 10 AND (`name1` BETWEEN 10 AND 10 OR `name4` BETWEEN 10 AND 10)');
+      expect(query).to.equal('WHERE (`name1` BETWEEN 10 AND 10 OR `name4` BETWEEN 10 AND 10) AND `name2` BETWEEN 10 AND 10 AND `name3` NOT BETWEEN 10 AND 10');
     });
   });
 });
