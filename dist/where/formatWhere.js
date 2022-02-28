@@ -9,7 +9,7 @@ const isObject_1 = require("../util/isObject");
 const types_1 = require("./types");
 const whereValue_1 = require("./whereValue");
 const formatWhere = (where) => {
-    if (!isObject_1.isObject(where)) {
+    if (!(0, isObject_1.isObject)(where)) {
         return '';
     }
     const queries = {
@@ -35,8 +35,8 @@ const formatWhere = (where) => {
             const [, prefix = types_1.WhereModeDto.or, name] = key.match(/^([*+-])?(.*)$/) || [];
             const negate = prefix === types_1.WhereModeDto.not;
             mode = negate ? types_1.WhereModeDto.and : prefix;
-            const query = whereValue_1.whereValue(value, negate);
-            list = query ? [`${name_1.default(name)} ${query}`] : [];
+            const query = (0, whereValue_1.whereValue)(value, negate);
+            list = query ? [`${(0, name_1.default)(name)} ${query}`] : [];
         }
         queries[mode].push(...list);
     });

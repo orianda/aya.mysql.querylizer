@@ -31,39 +31,39 @@ class Table {
             .join('.');
     }
     count(where, amount, offset) {
-        const queryWhere = where_1.where(where);
-        const queryLimit = limit_1.default(amount, offset);
+        const queryWhere = (0, where_1.where)(where);
+        const queryLimit = (0, limit_1.default)(amount, offset);
         return sql `SELECT COUNT(*) AS \`amount\` FROM ${this.reference} ${queryWhere} ${queryLimit}`;
     }
     select(names, where, amount, offset, order) {
-        const queryNames = names_1.default(names);
-        const queryWhere = where_1.where(where);
-        const queryOrder = order_1.default(order);
-        const queryLimit = limit_1.default(amount, offset);
+        const queryNames = (0, names_1.default)(names);
+        const queryWhere = (0, where_1.where)(where);
+        const queryOrder = (0, order_1.default)(order);
+        const queryLimit = (0, limit_1.default)(amount, offset);
         return sql `SELECT ${queryNames} FROM ${this.reference} ${queryWhere} ${queryOrder} ${queryLimit}`;
     }
     insert(values) {
-        const queryValues = values_1.default(values) || '() VALUES ()';
+        const queryValues = (0, values_1.default)(values) || '() VALUES ()';
         return sql `INSERT INTO ${this.reference} ${queryValues}`;
     }
     update(values, where, amount, offset, order) {
-        const queryValues = values_1.default(values);
-        const queryWhere = where_1.where(where);
-        const queryOrder = order_1.default(order);
-        const queryLimit = limit_1.default(amount, offset);
+        const queryValues = (0, values_1.default)(values);
+        const queryWhere = (0, where_1.where)(where);
+        const queryOrder = (0, order_1.default)(order);
+        const queryLimit = (0, limit_1.default)(amount, offset);
         return queryValues && sql `UPDATE ${this.reference} ${queryValues} ${queryWhere} ${queryOrder} ${queryLimit}`;
     }
     replace(values, where, amount, offset, order) {
-        const queryValues = values_1.default(values);
-        const queryWhere = where_1.where(where);
-        const queryOrder = order_1.default(order);
-        const queryLimit = limit_1.default(amount, offset);
+        const queryValues = (0, values_1.default)(values);
+        const queryWhere = (0, where_1.where)(where);
+        const queryOrder = (0, order_1.default)(order);
+        const queryLimit = (0, limit_1.default)(amount, offset);
         return queryValues && sql `REPLACE ${this.reference} ${queryValues} ${queryWhere} ${queryOrder} ${queryLimit}`;
     }
     remove(where, amount, offset, order) {
-        const queryWhere = where_1.where(where);
-        const queryOrder = order_1.default(order);
-        const queryLimit = limit_1.default(amount, offset);
+        const queryWhere = (0, where_1.where)(where);
+        const queryOrder = (0, order_1.default)(order);
+        const queryLimit = (0, limit_1.default)(amount, offset);
         return sql `DELETE FROM ${this.reference} ${queryWhere} ${queryOrder} ${queryLimit}`;
     }
 }

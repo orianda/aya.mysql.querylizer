@@ -14,7 +14,7 @@ const formatList = (values) => {
     }, []);
     const rows = values.map((row) => {
         const query = keys
-            .map((name) => value_1.default(row[name]))
+            .map((name) => (0, value_1.default)(row[name]))
             .join(', ');
         return `(${query})`;
     });
@@ -34,8 +34,8 @@ const formatItem = (values = {}) => {
     const query = Object
         .keys(values)
         .map((key) => {
-        const value = value_1.default(values[key]);
-        const name = name_1.default(key);
+        const value = (0, value_1.default)(values[key]);
+        const name = (0, name_1.default)(key);
         return `${name} = ${value}`;
     })
         .join(', ');

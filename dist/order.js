@@ -16,7 +16,7 @@ exports.default = (order = []) => {
         .filter((order, index, orders) => orders
         .slice(index + 1)
         .every(({ name }) => name !== order.name))
-        .map(({ name, mode }) => name_1.default(name) + ' ' + (mode === '-' ? 'DESC' : 'ASC'))
+        .map(({ name, mode }) => (0, name_1.default)(name) + ' ' + (mode === '-' ? 'DESC' : 'ASC'))
         .join(', ');
     return query ? `ORDER BY ${query}` : '';
 };

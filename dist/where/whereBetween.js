@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.whereBetween = void 0;
 const value_1 = __importDefault(require("../value"));
 const whereBetween = (range, negate) => {
-    const min = value_1.default(range.min);
-    const max = value_1.default(range.max);
+    const min = (0, value_1.default)(range.min);
+    const max = (0, value_1.default)(range.max);
     if (min === 'NULL' && max === 'NULL') {
         return '';
     }
