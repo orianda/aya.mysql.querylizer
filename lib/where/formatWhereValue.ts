@@ -1,6 +1,6 @@
-import formatName from "../name";
 import {WhereModeDto, WhereValueDto} from "./types";
 import {whereValue} from "./whereValue";
+import formatName from "../name";
 
 export const formatWhereValue = (key: string, value: WhereValueDto): {
   mode: WhereModeDto;

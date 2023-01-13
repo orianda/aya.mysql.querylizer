@@ -1,7 +1,7 @@
-import formatName from "../name";
-import {isObject} from "../util/isObject";
 import {WhereDto, WhereModeDto, WhereValueDto} from "./types";
 import {whereValue} from "./whereValue";
+import formatName from "../name";
+import {isObject} from "../util/isObject";
 
 export const formatWhere = (where: WhereDto): string => {
   if (!isObject(where)) {

@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import Table from "./Table";
 import Entry from "./Entry";
+import Table from "./Table";
 
 describe('Entry', () => {
 

@@ -1,5 +1,5 @@
-import formatValue from "../value";
 import {WhereRangeDto} from "./types";
+import formatValue from "../value";
 
 export const whereBetween = (range: WhereRangeDto, negate: boolean): string => {
   const min = formatValue(range.min);

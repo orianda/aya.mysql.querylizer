@@ -41,7 +41,7 @@ describe('NAME', () => {
 
     describe(String(JSON.stringify(name)), () => {
 
-      it(`should be "${name}"`, () => {
+      it(`should be "${JSON.stringify(name)}"`, () => {
         const query = formatName(name as NameDto);
         expect(query).to.equal(assert);
       });

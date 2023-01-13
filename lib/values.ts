@@ -1,6 +1,6 @@
 import formatName from "./name";
-import formatValue from "./value";
 import {NamesListDto} from "./names.dto";
+import formatValue from "./value";
 import {ValuesDto, ValuesItemDto, ValuesListDto} from "./values.dto";
 
 const formatList = (values: ValuesListDto) => {
@@ -41,4 +41,6 @@ const formatItem = (values: ValuesItemDto = {}) => {
   return query ? `SET ${query}` : '';
 }
 
-export default (values?: ValuesDto): string => Array.isArray(values) ? formatList(values as ValuesListDto) : formatItem(values as ValuesItemDto);
+export default (values?: ValuesDto): string => Array.isArray(values)
+  ? formatList(values as ValuesListDto)
+  : formatItem(values as ValuesItemDto);

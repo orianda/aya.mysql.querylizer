@@ -53,9 +53,9 @@ describe('VALUES', () => {
     [true, false].forEach((value) => {
       [value, value.toString(), value.toString().toUpperCase()].forEach((input) => {
 
-        describe(typeof input + ' - ' + input, () => {
+        describe(`${typeof input} - ${input.toString()}`, () => {
 
-          it('should be ' + value, () => {
+          it(`should be ${value.toString()}`, () => {
             const query = formatValues({names: input});
             const value = typeof input === 'string' ? '"' + input + '"' : input.toString().toUpperCase();
             expect(query).to.deep.equal('SET `names` = ' + value);
@@ -68,16 +68,16 @@ describe('VALUES', () => {
   describe('numbers', () => {
 
     [0, 1.1, 1.1E1, 1.1E+1, 1.1E-1].forEach((value) => {
-      ['', '+', '-'].forEach((sign) => {
-        const output = parseFloat(sign + value);
-        [output, sign + value].forEach((input) => {
+      ['' as const, '+' as const, '-' as const].forEach((sign) => {
+        const output = parseFloat(`${sign}${value}`);
+        [output, `${sign}${value}`].forEach((input) => {
 
           describe(JSON.stringify(input), () => {
 
-            it('should be ' + output, () => {
+            it(`should be ${output}`, () => {
               const query = formatValues({names: input});
               const value = typeof input === 'string' ? '"' + input + '"' : input;
-              expect(query).to.deep.equal('SET `names` = ' + value);
+              expect(query).to.deep.equal(`SET \`names\` = ${value}`);
             });
           });
         });
@@ -90,8 +90,8 @@ describe('VALUES', () => {
 
     [0, 1.1, 1.1E1, 1.1E+1, 1.1E-1].forEach((value) => {
       ['', '+', '-'].forEach((sign) => {
-        const output = parseFloat(sign + value);
-        [output, sign + value].forEach((input) => {
+        const output = parseFloat(`${sign}${value}`);
+        [output, `${sign}${value}`].forEach((input) => {
           inputs.push(input);
         });
       });

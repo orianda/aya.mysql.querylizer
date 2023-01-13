@@ -1,7 +1,7 @@
 import {ValueDto} from "./value.dto";
 
 const encodeString = (value: string) => {
-  const query = (value as string)
+  const query = value
     .toString()
     .replace(/(["\\])/g, '\\$1');
   return `"${query}"`;
