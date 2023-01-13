@@ -10,7 +10,7 @@ exports.default = (order = []) => {
         .map((order) => {
         const [, mode = '+', name] = order
             .toString()
-            .match(/^([+-])?(.*)$/);
+            .match(/^([+-])?(.*)$/) || [];
         return { name, mode };
     })
         .filter((order, index, orders) => orders

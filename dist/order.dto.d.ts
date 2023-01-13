@@ -1,3 +1,3 @@
-export declare type OrderDto = OrderListDto | OrderItemDto;
-export declare type OrderListDto = ReadonlyArray<OrderItemDto>;
-export declare type OrderItemDto = string;
+export type OrderDto = OrderListDto | OrderItemDto;
+export type OrderListDto = ReadonlyArray<OrderItemDto>;
+export type OrderItemDto = string;

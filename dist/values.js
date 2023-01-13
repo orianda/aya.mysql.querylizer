@@ -41,4 +41,6 @@ const formatItem = (values = {}) => {
         .join(', ');
     return query ? `SET ${query}` : '';
 };
-exports.default = (values) => Array.isArray(values) ? formatList(values) : formatItem(values);
+exports.default = (values) => Array.isArray(values)
+    ? formatList(values)
+    : formatItem(values);

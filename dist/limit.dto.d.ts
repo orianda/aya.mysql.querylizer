@@ -1,2 +1,2 @@
-export declare type AmountDto = number;
-export declare type OffsetDto = number;
+export type AmountDto = number;
+export type OffsetDto = number;

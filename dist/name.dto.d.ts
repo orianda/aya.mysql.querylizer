@@ -1,1 +1,1 @@
-export declare type NameDto = number | string;
+export type NameDto = number | string;

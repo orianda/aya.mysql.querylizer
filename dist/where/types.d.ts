@@ -1,10 +1,10 @@
 import { ValueDto } from "../value.dto";
-export declare type WhereDto = {
+export type WhereDto = {
     [name: string]: WhereValueDto;
 } | {
     [mode in WhereModeDto | '']: ReadonlyArray<WhereDto>;
 };
-export declare type WhereValueDto = ValueDto | ReadonlyArray<ValueDto> | WhereRangeDto;
+export type WhereValueDto = ValueDto | ReadonlyArray<ValueDto> | WhereRangeDto;
 export interface WhereRangeDto {
     min?: ValueDto;
     max?: ValueDto;

@@ -4,10 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.formatWhere = void 0;
-const name_1 = __importDefault(require("../name"));
-const isObject_1 = require("../util/isObject");
 const types_1 = require("./types");
 const whereValue_1 = require("./whereValue");
+const name_1 = __importDefault(require("../name"));
+const isObject_1 = require("../util/isObject");
 const formatWhere = (where) => {
     if (!(0, isObject_1.isObject)(where)) {
         return '';

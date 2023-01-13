@@ -1,4 +1,4 @@
 import { NameDto } from "./name.dto";
-export declare type NamesDto = NamesListDto | NamesItemDto;
-export declare type NamesListDto = ReadonlyArray<NamesItemDto>;
-export declare type NamesItemDto = NameDto;
+export type NamesDto = NamesListDto | NamesItemDto;
+export type NamesListDto = ReadonlyArray<NamesItemDto>;
+export type NamesItemDto = NameDto;

@@ -1,5 +1,5 @@
-import Table from "./Table";
 import { NamesDto } from "./names.dto";
+import Table from "./Table";
 import { ValuesItemDto } from "./values.dto";
 export default class Entry {
     readonly table: Table;
