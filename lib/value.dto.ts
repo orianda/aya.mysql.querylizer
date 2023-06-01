@@ -1,1 +1,1 @@
-export type ValueDto = boolean | number | string | undefined | Date;
+export type ValueDto = boolean | number | bigint | string | undefined | Date;
