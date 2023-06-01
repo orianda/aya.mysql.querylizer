@@ -60,7 +60,7 @@ rules:
   import/no-extraneous-dependencies:
     - error
     - devDependencies:
-        - "/test/"
+        - "/test/**"
         - "/**/*.spec.ts"
       optionalDependencies: false
       peerDependencies: true
